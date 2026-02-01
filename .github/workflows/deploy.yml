@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  id-token: write    # Required for OIDC
-  contents: read     # Required to checkout code
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -24,8 +24,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install Databricks CLI
-        uses: databricks/setup-cli@v1
+        uses: databricks/setup-cli@main
 
       - name: Deploy Bundle
-        run: |
-          databricks bundle deploy -t prod
+        run: databricks bundle deploy -t prod
