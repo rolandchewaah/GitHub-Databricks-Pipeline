@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    ingest_and_transform_job:
+      name: "Ingest and Transform Data"
+      
+      tasks:
+        - task_key: "run_notebook_task"
+          job_cluster_key: "default_cluster"
+          notebook_task:
+            notebook_path: ../src/ingest_data.ipynb  # 📓 Path to your code
+      
+      job_clusters:
+        - job_cluster_key: "default_cluster"
+          new_cluster:
+            spark_version: "13.3.x-scala2.12"        # ⚡ Choose your Spark version
+            node_type_id: "Standard_DS3_v2"          # ☁️ Azure VM size
+            num_workers: 1
+
+# Inside resources/ingestion_job.yml
+resources:
+  jobs:
+    ingest_and_transform_job:
+      name: "Ingest and Transform Data"
+      schedule:
+        quartz_cron_expression: "0 0 8 * * ?" # 🕗 Runs every day at 8 AM
+        timezone_id: "UTC"
+        pause_status: "UNPAUSED" 
+      # ... rest of the tasks and clusters
