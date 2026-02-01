@@ -25,4 +25,4 @@ resources:
         quartz_cron_expression: "0 0 8 * * ?" # 🕗 Runs every day at 8 AM
         timezone_id: "UTC"
         pause_status: "UNPAUSED" 
-      # ... rest of the tasks and clusters
+      # ... rest of the tasks and clusters as before
