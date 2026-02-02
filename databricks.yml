@@ -1,12 +1,12 @@
 bundle:
-    name: my_data_pipeline  # 🏷️ Give your project a name
-  
-  targets:
-    dev:                    # 🧪 For your sandbox/testing
-      workspace:
-        host: https://adb-7405614454563413.13.azuredatabricks.net
-    
-    prod:                   # 🚀 For your production environment
-      workspace:
-        host: https://adb-7405614454563413.13.azuredatabricks.net
-      # You can override cluster settings or schedules here for production
+  name: my_data_pipeline  # 🏷️ Give your project a name
+
+targets:
+  dev:                    # 🧪 For your sandbox/testing
+    workspace:
+      host: https://adb-7405614454563413.13.azuredatabricks.net
+
+  prod:                   # 🚀 For your production environment
+    workspace:
+      host: https://adb-7405614454563413.13.azuredatabricks.net
+    # You can override cluster settings or schedules here for production
