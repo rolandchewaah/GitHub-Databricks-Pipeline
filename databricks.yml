@@ -1,12 +1,8 @@
 bundle:
-  name: my_data_pipeline  # 🏷️ Give your project a name
+  name: my_project_name
 
 targets:
-  dev:                    # 🧪 For your sandbox/testing
+  prod:
     workspace:
-      host: ${vars.DATABRICKS_HOST} # This links to your GitHub variable 🌐
-
-  prod:                   # 🚀 For your production environment
-    workspace:
-      host: ${vars.DATABRICKS_HOST} # This links to your GitHub variable 🌐
-    # You can override cluster settings or schedules here for production
+      # This points to the environment variable we set in GitHub
+      host: ${vars.DATABRICKS_HOST}

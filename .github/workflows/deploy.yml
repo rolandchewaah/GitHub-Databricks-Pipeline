@@ -2,49 +2,27 @@ name: Databricks Deployment
 
 on:
   push:
-    branches:
-      - main
-
-permissions:
-  id-token: write
-  contents: read
+    branches: 
+      - main  # Deploy when changes are pushed to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Databricks CLI
+      - name: Force Uninstall Legacy CLI
         run: |
-          # 1. Force remove the legacy Python CLI package
           pip uninstall -y databricks-cli || true
-          
-      - name: Setup New Databricks CLI
+
+      - name: Install New Databricks CLI
         uses: databricks/setup-cli@v0.2.0
 
-      - name: Verify CLI Version
-        run: databricks -v  # This should now return 0.2xx.x 🏗️
+      - name: Verify Version
+        run: databricks -v  # Should show 0.2xx.x 🏗️
 
       - name: Deploy Bundle
         run: databricks bundle deploy -t prod
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
-      - name: Validate Databricks token
-        run: |
-          http_code=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: Bearer $DATABRICKS_TOKEN" \
-            "$DATABRICKS_HOST/api/2.0/preview/scim/v2/Me")
-          echo "Databricks /Me returned HTTP $http_code"
-          if [ "$http_code" != "200" ]; then
-            echo "ERROR: Databricks token is invalid or lacks permissions (received $http_code)." >&2
-            exit 1
-          fi
-      - name: Check CLI Version
-        run: databricks -v
-
-      - name: Deploy Bundle
-        run: databricks bundle deploy -t prod
