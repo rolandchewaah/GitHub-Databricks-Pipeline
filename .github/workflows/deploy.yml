@@ -19,9 +19,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Add Databricks CLI setup step here if needed
-      # - name: Install Databricks CLI
-      #   uses: databricks/setup-cli@v2
+      - name: Install Databricks CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install databricks-cli
+
+      - name: Validate Databricks token
+        run: |
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $DATABRICKS_TOKEN" \
+            "$DATABRICKS_HOST/api/2.0/preview/scim/v2/Me")
+          echo "Databricks /Me returned HTTP $http_code"
+          if [ "$http_code" != "200" ]; then
+            echo "ERROR: Databricks token is invalid or lacks permissions (received $http_code)." >&2
+            exit 1
+          fi
 
       - name: Deploy Bundle
         run: databricks bundle deploy -t prod
