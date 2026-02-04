@@ -13,7 +13,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DATABRICKS_HOST: https://adb-7405614454563413.13.azuredatabricks.net
+      DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
     steps:
       - name: Checkout Code
