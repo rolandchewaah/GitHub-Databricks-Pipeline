@@ -32,6 +32,8 @@ jobs:
             echo "ERROR: Databricks token is invalid or lacks permissions (received $http_code)." >&2
             exit 1
           fi
-
+      - name: Check CLI Version
+        run: databricks -v
+        
       - name: Deploy Bundle
         run: databricks bundle deploy -t prod
