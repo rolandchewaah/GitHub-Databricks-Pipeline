@@ -4,9 +4,9 @@ bundle:
 targets:
   dev:                    # 🧪 For your sandbox/testing
     workspace:
-      host: https://adb-7405614454563413.13.azuredatabricks.net
+      host: ${vars.DATABRICKS_HOST} # This links to your GitHub variable 🌐
 
   prod:                   # 🚀 For your production environment
     workspace:
-      host: https://adb-7405614454563413.13.azuredatabricks.net
+      host: ${vars.DATABRICKS_HOST} # This links to your GitHub variable 🌐
     # You can override cluster settings or schedules here for production
