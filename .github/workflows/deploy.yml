@@ -19,14 +19,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Uninstall legacy CLI
+      - name: Install Databricks CLI
         run: |
-          pip uninstall -y databricks-cli
-            
-      #- name: Setup New Databricks CLI
-       # uses: databricks/setup-cli@v0.2.0
-
-     
+          # 1. Force remove the legacy Python CLI package
+          pip uninstall -y databricks-cli || true
+          
+      - name: Setup New Databricks CLI
+        uses: databricks/setup-cli@v0.2.0
 
       - name: Validate Databricks token
         run: |
