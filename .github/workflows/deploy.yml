@@ -12,9 +12,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
-      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,6 +23,15 @@ jobs:
           
       - name: Setup New Databricks CLI
         uses: databricks/setup-cli@v0.2.0
+
+      - name: Verify CLI Version
+        run: databricks -v  # This should now return 0.2xx.x 🏗️
+
+      - name: Deploy Bundle
+        run: databricks bundle deploy -t prod
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
       - name: Validate Databricks token
         run: |
